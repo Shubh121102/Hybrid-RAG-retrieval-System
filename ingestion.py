@@ -48,12 +48,11 @@ def generate_embeddings():
 )
     return embeddings
 
-#
+
 
 def create_vector_store(embeddings, documents: list[Document]):
     vector_store = Chroma(collection_name = "example_collection1", embedding_function = embeddings, persist_directory = "C:\\Users\\shubh\\OneDrive\\Desktop\\RAG\\chroma_langchain_db")
     vector_store.add_documents(documents = documents)
-    # result =  vector_store.similarity_search(query)
     return vector_store
 
 
@@ -70,7 +69,8 @@ if __name__ == "__main__":
     embeddings = generate_embeddings()
     query = "How many distribution centres does Nike have in the US?"
     vector_store = create_vector_store(embeddings, split_documents)
-    result = vector_store.similarity_search(query, k=1)
+    retriever = vector_store.as_retriever(search_type="similarity", k=1)
+    result = retriever.invoke(query)
     print(result[0].page_content)
 
 

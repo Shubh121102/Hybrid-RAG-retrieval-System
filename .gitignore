@@ -3,3 +3,6 @@
 
 # Ignore the virtual environment 
 myenv/
+
+# Ignore the chroma db vector database
+chroma_langchain_db/
