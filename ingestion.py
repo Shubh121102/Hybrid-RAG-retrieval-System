@@ -4,7 +4,6 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from typing import Optional 
 from dotenv import load_dotenv
 import os
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
@@ -48,10 +47,7 @@ def split_docs(docs: list[Document],
 
 def generate_embeddings():
     embeddings = HuggingFaceEmbeddings(
-    # model_name="sentence-transformers/multi-qa-mpnet-base-dot-v1",
     model_name="sentence-transformers/all-MiniLM-L6-v2",
-    # model_name="sentence-transformers/paraphrase-MiniLM-L3-v2",
-    # model_name="thenlper/gte-small",
     encode_kwargs={"normalize_embeddings": True},
 )
     return embeddings
