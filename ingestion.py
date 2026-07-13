@@ -92,9 +92,3 @@ if __name__ == "__main__":
     # result = vector_store.similarity_search("How many distribution centres does Nike have in the US?")
     # print(result[0].page_content)
 
-#   def create_vector_store(query: str, documents: list[Document]):
-#     embeddings = generate_embeddings()
-#     vector_store = InMemoryVectorStore(embeddings)
-#     idx = vector_store.add_documents(documents = documents)
-#     result =  vector_store.similarity_search(query)
-#     return result
