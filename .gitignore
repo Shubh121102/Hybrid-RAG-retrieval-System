@@ -1,0 +1,5 @@
+# Ignore the environement variables/secrets
+.env
+
+# Ignore the virtual environment 
+myenv/
