@@ -9,10 +9,6 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 
 load_dotenv()
-
-if not os.environ.get("GOOGLE_API_KEY"):
-    os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
-
     
 
 def load_pdf(file_path:str)-> list[Document]:
