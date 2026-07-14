@@ -41,19 +41,6 @@ def split_docs(docs: list[Document],
     
 
 
-def generate_embeddings():
-    embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2",
-    encode_kwargs={"normalize_embeddings": True},
-)
-    return embeddings
-
-
-
-def create_vector_store(embeddings, documents: list[Document]):
-    vector_store = Chroma(collection_name = "example_collection1", embedding_function = embeddings, persist_directory = "C:\\Users\\shubh\\OneDrive\\Desktop\\RAG\\chroma_langchain_db")
-    vector_store.add_documents(documents = documents)
-    return vector_store
 
 
 if __name__ == "__main__":    
@@ -66,15 +53,27 @@ if __name__ == "__main__":
     print(len(split_documents))
     print("="*50)
     print("End")
-    embeddings = generate_embeddings()
-    query = "How many distribution centres does Nike have in the US?"
-    vector_store = create_vector_store(embeddings, split_documents)
-    retriever = vector_store.as_retriever(search_type="similarity", k=1)
-    result = retriever.invoke(query)
-    print(result[0].page_content)
+    # embeddings = generate_embeddings()
+    # query = "How many distribution centres does Nike have in the US?"
+    # vector_store = create_vector_store(embeddings, split_documents)
+    # retriever = vector_store.as_retriever(search_type="similarity", k=1)
+    # result = retriever.invoke(query)
+    # print(result[0].page_content)
+
+
+# def generate_embeddings():
+#     embeddings = HuggingFaceEmbeddings(
+#     model_name="sentence-transformers/all-MiniLM-L6-v2",
+#     encode_kwargs={"normalize_embeddings": True},
+# )
+#     return embeddings
 
 
 
+# def create_vector_store(embeddings, documents: list[Document]):
+#     vector_store = Chroma(collection_name = "example_collection1", embedding_function = embeddings, persist_directory = "C:\\Users\\shubh\\OneDrive\\Desktop\\RAG\\chroma_langchain_db")
+#     vector_store.add_documents(documents = documents)
+#     return vector_store
 
 
     
