@@ -27,7 +27,7 @@ def rag_chain():
     vector_store = create_vector_store(embeddings, split_documents)
     retriever = vector_store.as_retriever(search_type="similarity", k=1)
     llm_endpoint = HuggingFaceEndpoint(
-    repo_id="Qwen/Qwen3-0.6B", # Qwen/Qwen3-0.6B
+    repo_id="deepreinforce-ai/Ornith-1.0-9B", # Qwen/Qwen3-0.6B
     task="text-generation",
     max_new_tokens=512,
     do_sample=False,
@@ -53,7 +53,7 @@ Make sure to answer in a concise manner, if you don't know the answer, just say 
         | StrOutputParser()
     )
 
-    question = "How many distribution centres does Nike have outside the US?"
+    question = "How many distribution centres does Nike have in the US?"
     result = rag_chain.invoke(question)
     print("\n\nBASIC RAG DEMO:\n")
     print(f"Q: {question}\n")
