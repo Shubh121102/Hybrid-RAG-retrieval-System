@@ -18,7 +18,6 @@ if not os.environ.get("HF_TOKEN"):
     os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
 
 
-
 def rag_chain():
     file_path = "C:\\Users\\shubh\\OneDrive\\Desktop\\RAG\\data\\nke-10k-2023.pdf"
     docs = load_pdf(file_path)

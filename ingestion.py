@@ -40,9 +40,6 @@ def split_docs(docs: list[Document],
     return text_splitter.split_documents(docs)
     
 
-
-
-
 if __name__ == "__main__":    
     file_path = "C:\\Users\\shubh\\OneDrive\\Desktop\\RAG\\data\\nke-10k-2023.pdf"
     docs = load_pdf(file_path)
