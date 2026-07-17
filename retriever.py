@@ -1,7 +1,7 @@
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings 
-from langchain.retrievers import EnsembleRetriever 
+# from langchain.retrievers import EnsembleRetriever 
 
 
 def generate_embeddings():
@@ -20,7 +20,7 @@ def create_vector_store(embeddings, documents: list[Document]):
 
 
 def hybrid_retriever(query, vector_retriever, bm25_retriever,
-                    constant = 60, v_weights = 0.5, b_weights = 0.5, top_k = 100):
+                    rrf_constant = 60, v_weights = 0.5, b_weights = 0.5, top_k = 100):
     
     #Fetch results from retrivers
     v_result = vector_retriever(query, top_k)
@@ -34,10 +34,10 @@ def hybrid_retriever(query, vector_retriever, bm25_retriever,
     
     #Vector scores for rankings
     for doc_id, rank in vector_rank.items():
-        score[doc_id] = score.get(doc_id,0.0) + (v_weights/(rank+constant))
+        score[doc_id] = score.get(doc_id,0.0) + (v_weights/(rank+rrf_constant))
         
     #BM25 scores for rankings
     for doc_id, rank in bm25_rank.items():
-        score[doc_id] = score.get(doc_id,0.0) + (b_weights/(rank+constant))
+        score[doc_id] = score.get(doc_id,0.0) + (b_weights/(rank+rrf_constant))
         
     return sorted(score.items(), key = lambda x: x[1], reverse = True)
