@@ -27,8 +27,8 @@ def hybrid_retriever(query, vector_retriever, bm25_retriever,
     b_result = bm25_retriever(query, top_k)
     
     #Rank the retriver results
-    vector_rank = {doc_id:rank for rank,(doc_id,_) in enumerate(v_result)
-    bm25_rank = {doc_id:rank for rank,(doc_id,_) in enumerate(b_result)
+    vector_rank = {doc_id:rank for rank,(doc_id,_) in enumerate(v_result)}
+    bm25_rank = {doc_id:rank for rank,(doc_id,_) in enumerate(b_result)}
     
     score = {}
     
@@ -40,4 +40,4 @@ def hybrid_retriever(query, vector_retriever, bm25_retriever,
     for doc_id, rank in bm25_rank.items():
         score[doc_id] = score.get(doc_id,0.0) + (b_weights/(rank+constant))
         
-    return sorted(scores.items(), key = lambda x: x[1], reverse = True)
+    return sorted(score.items(), key = lambda x: x[1], reverse = True)
