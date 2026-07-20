@@ -1,12 +1,9 @@
-from langchain_core.documents import Document
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.runnables import RunnablePassthrough
-from typing import Optional 
+from langchain_core.runnables import RunnablePassthrough 
 from dotenv import load_dotenv
 import os
 from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace 
-from langchain_chroma import Chroma
 from ingestion import load_pdf, split_docs
 from retriever import generate_embeddings, create_vector_store
 # from langchain.chat_models import init_chat_model 
