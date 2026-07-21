@@ -50,12 +50,7 @@ if __name__ == "__main__":
     print(len(split_documents))
     print("="*50)
     print("End")
-    # embeddings = generate_embeddings()
-    # query = "How many distribution centres does Nike have in the US?"
-    # vector_store = create_vector_store(embeddings, split_documents)
-    # retriever = vector_store.as_retriever(search_type="similarity", k=1)
-    # result = retriever.invoke(query)
-    # print(result[0].page_content)
+
 
 
 # def generate_embeddings():
