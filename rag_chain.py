@@ -54,8 +54,7 @@ Make sure to answer in a concise manner, if you don't know the answer, just say 
     print("\n\nBASIC RAG DEMO:\n")
     print(f"Q: {question}\n")
     print(f"A: {result}")
-    # result = retriever.invoke(query)
-    # return result[0].page_content
+
 
 if __name__ == "__main__":
     rag_chain()
