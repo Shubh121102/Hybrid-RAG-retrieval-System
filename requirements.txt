@@ -5,3 +5,5 @@ python-dotenv
 sentence-transformers
 langchain-huggingface
 langchain-chroma
+fastapi
+uvicorn
