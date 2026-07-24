@@ -7,3 +7,4 @@ langchain-huggingface
 langchain-chroma
 fastapi
 uvicorn
+rank_bm25
