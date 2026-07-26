@@ -52,7 +52,7 @@ def rag_chain():
         return retrieved_docs
 
     # Use Hybrid Retriever in the RAG chain    
-    retriever = hybrid_retriever_wrapper
+    retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 10})
     llm_endpoint = HuggingFaceEndpoint(
     repo_id="deepreinforce-ai/Ornith-1.0-9B", # Qwen/Qwen3-0.6B
     task="text-generation",
