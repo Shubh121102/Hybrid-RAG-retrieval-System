@@ -51,7 +51,7 @@ def rag_chain():
             retrieved_docs.append(split_documents[doc_idx])
         return retrieved_docs
 
-    # Use Hybrid Retriever in the RAG chain    
+    # Use Vector Retriever(Test) in the RAG chain    
     retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 10})
     llm_endpoint = HuggingFaceEndpoint(
     repo_id="deepreinforce-ai/Ornith-1.0-9B", # Qwen/Qwen3-0.6B
@@ -82,7 +82,7 @@ Make sure to answer in a concise manner, if you don't know the answer, just say 
 
     question = "How many distribution centres does Nike have in the US?"
     result = rag_chain.invoke(question)
-    print("\n\nHYBRID RAG DEMO:\n")
+    print("\n\nVECTOR RAG DEMO:\n")
     print(f"Q: {question}\n")
     print(f"A: {result}")
 
