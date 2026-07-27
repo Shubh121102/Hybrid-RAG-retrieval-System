@@ -21,14 +21,14 @@ def create_vector_store(embeddings, documents: list[Document]):
     return vector_store
 
 
-def create_bm25_retriever(documents: list[Document], k = int):
-    bm25_retriever = BM25Retriever.from_documents(documents=documents, k=k)
+def create_bm25_retriever(documents: list[Document]):
+    bm25_retriever = BM25Retriever.from_documents(documents=documents, k=3)
     return bm25_retriever
 
 
 
 def hybrid_retriever(query, vector_retriever, bm25_retriever,
-                    rrf_constant = 60, v_weights = 0.5, b_weights = 0.5, top_k = 100):
+                    rrf_constant = 60, v_weights = 0.5, b_weights = 0.5, top_k = 3):
     
     #Fetch results from retrivers
     v_result = vector_retriever(query, top_k)
@@ -67,11 +67,11 @@ if __name__ == "__main__":
     vector_store = create_vector_store(embeddings, documents)
     
     # Create BM25 index
-    bm25_index = create_bm25_retriever(documents)
+    bm25_index = create_bm25_retriever(documents, 3)
     
     # Define vector retriever function
-    def vector_retriever_func(query, top_k=100):
-        return vector_store.similarity_search_with_score(query, k=top_k)
+    # def vector_retriever_func(query, top_k=100):
+    #     return vector_store.similarity_search_with_score(query, k=top_k)
     
     # Define BM25 retriever function (wraps the bm25_retriever_func with fixed parameters)
     # def bm25_wrapper(query, top_k=100):
