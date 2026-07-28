@@ -48,20 +48,17 @@ def hybrid_retrieve(query, retrievers, weights, k=3, rrf_k=60):
 
 
 def test_query(query, name, retriever):
-    results = retriever.invoke(query)
+    if retriever != hybrid_retrieve:
+        results = retriever.invoke(query)
+    else:
+        results = retriever(query = query, retrievers=[vector_store,bm25_retriever],weights=[0.5,0.5] )
+
     print(f'\\n{name} - Query: \"{query}\"')
     for i, doc in enumerate(results[:3]):
         preview = doc.page_content[:80] + '...'
         print(f'{i+1}. {preview}')
     return results
 
-def test_query_hy(query, name):
-    results = hybrid_retrieve(query = query, retrievers=[vector_store,bm25_retriever],weights=[0.5,0.5] )
-    print(f'\\n{name} - Query: \"{query}\"')
-    for i, doc in enumerate(results[:3]):
-        preview = doc.page_content[:80] + '...'
-        print(f'{i+1}. {preview}')
-    return results
 
 
 # ============= USAGE EXAMPLE =============
@@ -85,75 +82,12 @@ if __name__ == "__main__":
     bm25_retriever = create_bm25_retriever(documents)
 
     query = "dog food delivery"
-    hybrid_retriever = hybrid_retrieve(query = query,retrievers=[vector_store,bm25_retriever],weights=[0.5,0.5])
+    # hybrid_retriever = hybrid_retrieve(query = query,retrievers=[vector_store,bm25_retriever],weights=[0.5,0.5])
 
     vector_result = test_query(query, "VECTOR", vector_store)
     print("="*50)
     bm25_result = test_query(query, "BM25", bm25_retriever)
     print("="*50)
-    hybrid_result = test_query_hy(query, "HYBRID")
+    hybrid_result = test_query(query, "HYBRID", hybrid_retrieve)
     print("="*50)
     
-    
-    # Define vector retriever function
-    # def vector_retriever_func(query, top_k=100):
-    #     return vector_store.similarity_search_with_score(query, k=top_k)
-    
-    # Define BM25 retriever function (wraps the bm25_retriever_func with fixed parameters)
-    # def bm25_wrapper(query, top_k=100):
-    # # return bm25_retriever_func(query, bm25_index, documents, top_k)
-    
-    # # Test hybrid retrieval
-    # # query = "cat dog"
-    # results = hybrid_retriever(
-    #     query=query,
-    #     vector_retriever=vector_retriever_func,
-    #     bm25_retriever=bm25_wrapper,
-    #     rrf_constant=60,
-    #     v_weights=0.5,
-    #     b_weights=0.5,
-    #     top_k=10
-    # )
-    
-    # print(f"\nResults for query: '{query}'")
-    # print("-" * 50)
-    # for doc_id, score in results:
-    #     doc_index = int(doc_id)
-    #     print(f"Doc {doc_id}: {documents[doc_index].page_content}")
-    #     print(f"Score: {score:.6f}\n")
-
-
-# def create_bm25_retriever(documents: list[Document]):
-#     tokenized_corpus = [doc.page_content.lower().split() for doc in documents]
-#     bm25 = BM25Okapi(tokenized_corpus)
-#     return bm25
-
-# def bm25_retriever_func(query, bm25, documents: list[Document], top_k=100):
-#     tokenized_query = query.lower().split()
-#     doc_scores = bm25.get_scores(tokenized_query)
-#     top_indices = np.argsort(doc_scores)[::-1][:top_k]
-#     return [(str(idx), doc_scores[idx]) for idx in top_indices]
-
-
-# def hybrid_retriever(query, vector_retriever, bm25_retriever,
-#                     rrf_constant = 60, v_weights = 0.5, b_weights = 0.5, top_k = 3):
-    
-#     #Fetch results from retrivers
-#     v_result = vector_retriever(query, top_k)
-#     b_result = bm25_retriever(query, top_k)
-    
-#     #Rank the retriver results
-#     vector_rank = {doc_id:rank for rank,(doc_id,_) in enumerate(v_result)}
-#     bm25_rank = {doc_id:rank for rank,(doc_id,_) in enumerate(b_result)}
-    
-#     score = {}
-    
-#     #Vector scores for rankings
-#     for doc_id, rank in vector_rank.items():
-#         score[doc_id] = score.get(doc_id,0.0) + (v_weights/(rank+rrf_constant))
-        
-#     #BM25 scores for rankings
-#     for doc_id, rank in bm25_rank.items():
-#         score[doc_id] = score.get(doc_id,0.0) + (b_weights/(rank+rrf_constant))
-        
-#     return sorted(score.items(), key = lambda x: x[1], reverse = True)
