@@ -1,11 +1,11 @@
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.runnables import RunnablePassthrough 
+from langchain_core.runnables import RunnablePassthrough, RunnableLambda 
 from dotenv import load_dotenv
 import os
 from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace 
 from ingestion import load_pdf, split_docs
-from retriever import generate_embeddings, create_vector_store, create_bm25_retriever, bm25_retriever_func, hybrid_retriever
+from retriever import generate_embeddings, create_vector_store, create_bm25_retriever, hybrid_retrieve
 # from langchain.chat_models import init_chat_model 
 
 load_dotenv()
@@ -19,11 +19,19 @@ def rag_chain():
     file_path = "C:\\Users\\shubh\\OneDrive\\Desktop\\RAG\\data\\nke-10k-2023.pdf"
     docs = load_pdf(file_path)
     split_documents = split_docs(docs)
+    # question = "How many distribution centres in the US?"
+    question = input("Enter your question here:\n")
     embeddings = generate_embeddings()
     vector_store = create_vector_store(embeddings, split_documents)
+    vector_retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 3})
+    bm25_retriever = create_bm25_retriever(split_documents)
+
+    def hybrid_retrieve_fn(q):
+        return hybrid_retrieve(query = q,retrievers=[vector_retriever,bm25_retriever],weights=[0.5,0.5])
+
+    hybrid_retriever = RunnableLambda(hybrid_retrieve_fn)
+
     
-    # Use Vector Retriever(Test) in the RAG chain    
-    retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 10})
     llm_endpoint = HuggingFaceEndpoint(
     repo_id="deepreinforce-ai/Ornith-1.0-9B", # Qwen/Qwen3-0.6B
     task="text-generation",
@@ -45,15 +53,15 @@ Make sure to answer in a concise manner, if you don't know the answer, just say 
         return "\n".join([doc.page_content for doc in docs])
     
     rag_chain = (
-        {"context": retriever | format_docs, "question": RunnablePassthrough()}
+        {"context": hybrid_retriever | format_docs, "question": RunnablePassthrough()}
         | prompt
         | llm   
         | StrOutputParser()
     )
 
-    question = "How many distribution centres does Nike have in the US?"
+    
     result = rag_chain.invoke(question)
-    print("\n\nVECTOR RAG DEMO:\n")
+    print("\n\nHYBRID RAG DEMO:\n")
     print(f"Q: {question}\n")
     print(f"A: {result}")
 
