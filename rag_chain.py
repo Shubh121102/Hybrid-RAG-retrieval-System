@@ -15,12 +15,12 @@ if not os.environ.get("HF_TOKEN"):
     os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
 
 
-def rag_chain():
+def rag_chain(question: str):
     file_path = "C:\\Users\\shubh\\OneDrive\\Desktop\\RAG\\data\\nke-10k-2023.pdf"
     docs = load_pdf(file_path)
     split_documents = split_docs(docs)
     # question = "How many distribution centres in the US?"
-    question = input("Enter your question here:\n")
+    # question = input("Enter your question here:\n")
     embeddings = generate_embeddings()
     vector_store = create_vector_store(embeddings, split_documents)
     vector_retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 3})
@@ -64,6 +64,7 @@ Make sure to answer in a concise manner, if you don't know the answer, just say 
     print("\n\nHYBRID RAG DEMO:\n")
     print(f"Q: {question}\n")
     print(f"A: {result}")
+    return result
 
 
 if __name__ == "__main__":
