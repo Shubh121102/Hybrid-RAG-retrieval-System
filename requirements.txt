@@ -8,3 +8,4 @@ langchain-chroma
 fastapi
 uvicorn
 rank_bm25
+markdown
