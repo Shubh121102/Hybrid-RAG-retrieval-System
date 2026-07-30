@@ -16,7 +16,7 @@ if not os.environ.get("HF_TOKEN"):
 
 
 def rag_chain(question: str):
-    
+
     # Defining the file path  
     file_path = "C:\\Users\\shubh\\OneDrive\\Desktop\\RAG\\data\\nke-10k-2023.pdf"
 
@@ -81,6 +81,7 @@ Make sure to answer in a concise manner, if you don't know the answer, just say 
     return result
 
 
+# ============= USAGE EXAMPLE =============
 if __name__ == "__main__":
     rag_chain()
 

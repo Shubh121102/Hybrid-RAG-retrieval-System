@@ -1,11 +1,7 @@
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
-from langchain_huggingface import HuggingFaceEmbeddings 
-# from langchain.retrievers import EnsembleRetriever 
+from langchain_huggingface import HuggingFaceEmbeddings  
 from langchain_community.retrievers import BM25Retriever
-from typing import Optional
-# from rank_bm25 import BM25Okapi
-# import numpy as np
 
 URL = "C:\\Users\\shubh\\OneDrive\\Desktop\\RAG\\chroma_langchain_db"
 
