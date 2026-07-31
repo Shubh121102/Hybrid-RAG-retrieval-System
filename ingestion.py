@@ -3,10 +3,8 @@ import pypdf
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from typing import Optional 
 from dotenv import load_dotenv
-import os
 from langchain_core.vectorstores import InMemoryVectorStore
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_chroma import Chroma
+
 
 load_dotenv()
     
