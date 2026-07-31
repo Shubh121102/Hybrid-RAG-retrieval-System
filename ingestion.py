@@ -53,25 +53,4 @@ if __name__ == "__main__":
 
 
 
-# def generate_embeddings():
-#     embeddings = HuggingFaceEmbeddings(
-#     model_name="sentence-transformers/all-MiniLM-L6-v2",
-#     encode_kwargs={"normalize_embeddings": True},
-# )
-#     return embeddings
-
-
-
-# def create_vector_store(embeddings, documents: list[Document]):
-#     vector_store = Chroma(collection_name = "example_collection1", embedding_function = embeddings, persist_directory = "C:\\Users\\shubh\\OneDrive\\Desktop\\RAG\\chroma_langchain_db")
-#     vector_store.add_documents(documents = documents)
-#     return vector_store
-
-
-    
-    # vector_store = InMemoryVectorStore.from_documents(split_documents, generate_embeddings())
-    # vector_store = InMemoryVectorStore(generate_embeddings())
-    # ids = vector_store.add_documents(documents = split_documents)
-    # result = vector_store.similarity_search("How many distribution centres does Nike have in the US?")
-    # print(result[0].page_content)
 
