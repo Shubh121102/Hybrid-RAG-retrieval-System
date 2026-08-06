@@ -3,7 +3,6 @@ import pypdf
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from typing import Optional 
 from dotenv import load_dotenv
-from langchain_core.vectorstores import InMemoryVectorStore
 
 
 load_dotenv()
