@@ -6,7 +6,7 @@ import os
 from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace 
 from ingestion import load_pdf, split_docs
 from retriever import generate_embeddings, create_vector_store, create_bm25_retriever, hybrid_retrieve
-
+from reranker import rerank
 
 load_dotenv()
 
@@ -36,14 +36,19 @@ def rag_chain(question: str):
 
 
     # Hybrid retriever  
+    # def hybrid_retrieve_fn(q):
+    #     return hybrid_retrieve(query = q,retrievers=[vector_retriever,bm25_retriever],weights=[0.5,0.5])
+    
+    #Hybrid Retriever with Reranking
     def hybrid_retrieve_fn(q):
-        return hybrid_retrieve(query = q,retrievers=[vector_retriever,bm25_retriever],weights=[0.5,0.5])
-
+        docs =  hybrid_retrieve(query = q,retrievers=[vector_retriever,bm25_retriever],weights=[0.5,0.5])
+        return rerank(q, docs, top_k=3)  # Rerank the retrieved documents
+    
     hybrid_retriever = RunnableLambda(hybrid_retrieve_fn)
 
     # Defining the LLM
     llm_endpoint = HuggingFaceEndpoint(
-    repo_id="deepreinforce-ai/Ornith-1.0-9B", # Qwen/Qwen3-0.6B
+    repo_id="Qwen/Qwen3-0.6B", # Qwen/Qwen3-0.6B
     task="text-generation",
     max_new_tokens=512,
     do_sample=False,
@@ -83,5 +88,6 @@ Make sure to answer in a concise manner, if you don't know the answer, just say 
 
 # ============= USAGE EXAMPLE =============
 if __name__ == "__main__":
-    rag_chain()
+    question = "How many distribution centres in the US?"
+    rag_chain(question)
 
