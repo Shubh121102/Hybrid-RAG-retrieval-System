@@ -16,11 +16,11 @@ def chat(request: ChatRequest):
     """
     Endpoint to handle chat requests.
     """
-    result = rag_chain(request.question)
+    result = rag_chain.invoke(request.question)
     return markdown.markdown(result)
     # return {"result": result}
 
-@router.post("/stream_answer", response_class = StreamingResponse)
+@router.post("/stream_answer")
 def stream_answer(request: ChatRequest):
     def stream():
 
