@@ -1,9 +1,7 @@
 from datasets import Dataset
 from ragas import evaluate
 from sentence_transformers import SentenceTransformer
-# from ragas.metrics.collections import faithfulness, answer_relevancy, context_precision, context_recall
 from ragas.metrics import Faithfulness, AnswerRelevancy, ContextPrecision, ContextRecall
-from ragas.embeddings import GoogleEmbeddings, HuggingFaceEmbeddings
 from ragas.llms import llm_factory
 from rag_chain import get_answer_and_contexts
 from google import genai
@@ -24,7 +22,9 @@ class CustomEmbeddings:
         """Embed multiple documents"""
         return self.model.encode(texts, normalize_embeddings=True).tolist()
 
+
 client = genai.Client(api_key = os.environ.get("GOOGLE_API_KEY"))
+
 
 questions = [
     "How many distribution centres in the US?"
@@ -58,7 +58,6 @@ llm = llm_factory(
     client = client
 )
 
-# embeddings = GoogleEmbeddings(client = client, model = "gemini-embedding-001")
 embeddings = CustomEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 
 metrics = [
@@ -75,5 +74,5 @@ results = evaluate(
     embeddings = embeddings
 )
 
-print("\n==========RAGAS Evaluation Results==========")
+print("\n==========RAGAS Evaluation Results==========\n")
 print(results)
