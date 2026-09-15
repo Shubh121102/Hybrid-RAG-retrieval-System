@@ -80,13 +80,22 @@ Make sure to answer in a concise manner, if you don't know the answer, just say 
 
     # Final Output
     
-    return rag_chain
+    return rag_chain, hybrid_retriever
 
-rag_chain = create_rag_chain()
+rag_chain, hybrid_retriever = create_rag_chain()
 
+
+def get_answer_and_contexts(question: str):
+    retrieved_docs = hybrid_retriever.invoke(question)
+    contexts = [doc.page_content for doc in retrieved_docs]
+    answer = rag_chain.invoke(question)
+    return {
+        "answer":answer,
+        "contexts": contexts
+    }
 
 # ============= USAGE EXAMPLE =============
-if __name__ == "__main__":
-    question = "How many distribution centres in the US?"
-    rag_chain(question)
+# if __name__ == "__main__":
+#     question = "How many distribution centres in the US?"
+#     rag_chain(question)
 
