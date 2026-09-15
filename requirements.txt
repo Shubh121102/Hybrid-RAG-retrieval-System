@@ -9,3 +9,5 @@ fastapi
 uvicorn
 rank_bm25
 markdown
+ragas
+google-genai
