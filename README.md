@@ -433,7 +433,7 @@ hybrid-rag/
 ├── rag_chain.py             # RAG orchestration
 ├── evals.py                 # RAGAS evaluation
 │
-├── api/                     # FastAPI application
+├── app/                     # FastAPI application
 │   ├── main.py              # App initialization
 │   ├── routes.py            # Endpoints (/answer, /stream-answer)
 │   └── schema.py            # Request/Response models
