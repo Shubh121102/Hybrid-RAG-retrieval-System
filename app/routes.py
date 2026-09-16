@@ -11,7 +11,7 @@ from .schema import ChatRequest
 router = APIRouter(prefix="/rag", tags=["RAG Operations"])
 
 
-@router.post("/chat", response_class=HTMLResponse)
+@router.post("/answer", response_class=HTMLResponse)
 def chat(request: ChatRequest):
     """
     Endpoint to handle chat requests.
