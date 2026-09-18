@@ -63,7 +63,7 @@ Context: {context}
 Question: {question}
 Answer: 
                                             
-Make sure to answer in a concise manner, if you don't know the answer, just say "I don't know"                                              
+Make sure to answer in a concise manner and answer in 3 short bullet points, if you don't know the answer, just say "I don't know"                                              
 
 """)
     def format_docs(docs):
